@@ -1,6 +1,6 @@
 CC = clang-3.5
-DERS = famul.h smith_waterman.h
-OBJECTS = famul.o smith_waterman.o
+HEADERS = famul.h smith_waterman.h read_fasta.h
+OBJECTS = famul.o smith_waterman.o read_fasta.o
 
 default: famul
 

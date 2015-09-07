@@ -150,7 +150,7 @@ void construct_alignments(MatrixEntry **matrix,
 }
 
 
-void smith_waterman(char *seq1, char *seq2,
+void smith_waterman(char *seq1_in, char *seq2_in,
     char **alignment_seq1, char **alignment_seq2)
   /*
      matrix scheme:
@@ -163,8 +163,15 @@ void smith_waterman(char *seq1, char *seq2,
      2
    */
 {
-  int seq1_len = strlen(seq1);
-  int seq2_len = strlen(seq2);
+  int seq1_len = strlen(seq1_in) + 1;
+  int seq2_len = strlen(seq2_in) + 1;
+  
+  /* append - to the sequence */
+  char *seq1 = malloc(seq1_len);
+  char *seq2 = malloc(seq2_len);
+  strcpy(seq1 + 1, seq1_in);
+  strcpy(seq2 + 1, seq2_in);
+  seq1[0] = seq2[0] = '-';
 
   /* allocate allignment sequences */
   *alignment_seq1 = malloc(seq1_len * 2);

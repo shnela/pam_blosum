@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
+#include "read_fasta.h"
 #include "smith_waterman.h"
 
 
@@ -62,16 +64,32 @@ int main(int argc, char *argv[])
     int i;
     for (i=0 ; optind < argc; optind++, i++) {
       if (access(argv[optind], R_OK)) {
-        fasta_files[i] = argv[optind];
+//        fasta_files[i] = argv[optind];
+        printf("OK\n");
       }
+        printf("OK2\n");
+        fasta_files[i] = argv[optind];
     }
   }
 
-  char *seq1 = "-ACACACTA";
-  char *seq2 = "-AGCACACA";
-  printf("%s\n%s\n", seq1, seq2);
-  char **sq1;
-  char **sq2;
-  smith_waterman(seq1,seq2, sq1, sq2);
-  
+  Fasta *fasta_sequences;
+  int fasta_sequences_len;
+  get_fasta_sequences(fasta_files[0], &fasta_sequences, &fasta_sequences_len);
+  printf("Created %d fasta sequences\n", fasta_sequences_len);
+  printf("%s\n", fasta_sequences[fasta_sequences_len - 1].name);
+
+  char *seq1 = malloc(20);
+  char *seq2 = malloc(20);
+  char *alignment_seq1;
+  char *alignment_seq2;
+  int limit = 20;
+  strncpy(seq1, fasta_sequences[0].sequence, limit);
+  strncpy(seq2, fasta_sequences[1].sequence, limit);
+  seq1[limit] = 0;
+  seq2[limit] = 0;
+  printf ("%s\n", seq1);
+  printf ("%s\n", seq2);
+  smith_waterman(seq1,seq2, &alignment_seq1, &alignment_seq2);
+
+
 }
