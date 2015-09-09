@@ -1,0 +1,2 @@
+gls-bin - gnu scientific library (http://ftp.task.gda.pl/pub/gnu/gsl/)
+in case of problems: https://www.gnu.org/software/gsl/manual/html_node/Shared-Libraries.html

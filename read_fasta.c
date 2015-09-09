@@ -60,8 +60,14 @@ void get_fasta_sequences(char* file_name,
         inside_sequence_index = 0;
     }
   }
+
+  /* set return values */
   *number_of_fasata_sequenes = fasta_sequence_index;
   *out_fasta_sequences = fasta_sequences;
+
+  /* free memory */
+  free(line);
+  fclose(file);
 }
 
 

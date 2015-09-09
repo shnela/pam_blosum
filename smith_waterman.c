@@ -112,9 +112,11 @@ void construct_alignments(MatrixEntry **matrix,
     char *seq1, char *seq2, int seq1_len, int seq2_len,
     char **alignment_seq1, char **alignment_seq2)
 {
-  int x = 1, y = 1;
+  int x = matrix[0][0].prev_x,
+      y = matrix[0][0].prev_y;
   int seq_ind = 0;
   int prev_x = 0, prev_y = 0;
+  int i = 0;
   while (1)
   {
     if (prev_x == x) {
@@ -146,6 +148,7 @@ void construct_alignments(MatrixEntry **matrix,
     int tmp_x = matrix[y][x].prev_x;
     y = matrix[y][x].prev_y;
     x = tmp_x;
+    (*alignment_seq1)[seq_ind] = 0;
   }
 }
 
@@ -165,13 +168,15 @@ void smith_waterman(char *seq1_in, char *seq2_in,
 {
   int seq1_len = strlen(seq1_in) + 1;
   int seq2_len = strlen(seq2_in) + 1;
+  printf ("%d\n", seq1_len);
   
   /* append - to the sequence */
-  char *seq1 = malloc(seq1_len);
-  char *seq2 = malloc(seq2_len);
+  char *seq1 = malloc(seq1_len + 1);
+  char *seq2 = malloc(seq2_len + 1);
   strcpy(seq1 + 1, seq1_in);
   strcpy(seq2 + 1, seq2_in);
   seq1[0] = seq2[0] = '-';
+  printf("%s\n%s\n", seq1, seq2);
 
   /* allocate allignment sequences */
   *alignment_seq1 = malloc(seq1_len * 2);
@@ -213,4 +218,6 @@ void smith_waterman(char *seq1_in, char *seq2_in,
     free(matrix[y]);
   }
   free(matrix);
+  free(seq1);
+  free(seq2);
 }
